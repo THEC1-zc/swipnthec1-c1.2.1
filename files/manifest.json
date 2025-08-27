@@ -1,0 +1,11 @@
+{
+  "updated": "2025-08-27T13:12:26.253762Z",
+  "files": [
+    {
+      "path": "files/example.txt",
+      "label": "Example Text",
+      "size": "~40 bytes"
+    }
+  ],
+  "notes": "Add your files into /files and list them here to show on the homepage."
+}

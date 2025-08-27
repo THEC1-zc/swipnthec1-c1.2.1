@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SWIP File Hub — Work in Progress</title>
+  <meta name="description" content="SWIP + Thec1 file hub (static site on Vercel)" />
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --fg: #f2f2f2;
+      --muted: #9a9a9a;
+      --accent1: #ff007a;
+      --accent2: #7a00ff;
+      --accent3: #00ffe5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+    }
+    header {
+      padding: 48px 24px 16px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2.2rem;
+      line-height: 1.2;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 1rem;
+      margin: 0 0 24px;
+    }
+    main {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px 48px;
+      flex: 1;
+    }
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .list { margin: 0; padding: 0; list-style: none; }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 10px;
+      border-bottom: 1px dashed rgba(255,255,255,0.08);
+    }
+    .item:last-child { border-bottom: none; }
+    .item a {
+      color: var(--fg);
+      text-decoration: none;
+    }
+    .item small { color: var(--muted); }
+    footer {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🚧 Work in Progress — SWIP File Hub</h1>
+    <p class="tagline">by <strong>Thec1</strong> &amp; <strong>SWIP</strong></p>
+  </header>
+  <main>
+    <div class="card">
+      <ul id="fileList" class="list">
+        <li class="item"><small>Loading files…</small></li>
+      </ul>
+    </div>
+  </main>
+  <footer>swipnthec1.universe</footer>
+
+  <script>
+    async function loadFiles() {
+      try {
+        const res = await fetch('files/manifest.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to load manifest');
+        const data = await res.json();
+        const list = document.getElementById('fileList');
+        list.innerHTML = '';
+        if (!data.files || data.files.length === 0) {
+          list.innerHTML = '<li class="item"><small>No files yet. Add files to the <code>/files</code> folder and list them in <code>files/manifest.json</code>.</small></li>';
+          return;
+        }
+        data.files.forEach(f => {
+          const li = document.createElement('li');
+          li.className = 'item';
+          const a = document.createElement('a');
+          a.href = f.path;
+          a.textContent = f.label || f.path;
+          const meta = document.createElement('small');
+          meta.textContent = f.size ? f.size : '';
+          li.appendChild(a);
+          li.appendChild(meta);
+          list.appendChild(li);
+        });
+      } catch (e) {
+        const list = document.getElementById('fileList');
+        list.innerHTML = '<li class="item"><small>Could not load manifest. Ensure <code>files/manifest.json</code> exists.</small></li>';
+      }
+    }
+    loadFiles();
+  </script>
+</body>
+</html>
