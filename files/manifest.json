@@ -6,6 +6,10 @@
       "label": "Example Text",
       "size": "~40 bytes"
     }
+ {"path": "files/ed1a-C.png",
+      "label": "Common stone",
+      "size": "3.6 MB"
+    }
   ],
   "notes": "Add your files into /files and list them here to show on the homepage."
 }
