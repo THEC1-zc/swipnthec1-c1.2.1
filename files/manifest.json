@@ -5,8 +5,9 @@
       "path": "files/example.txt",
       "label": "Example Text",
       "size": "~40 bytes"
-    }
- {"path": "files/ed1a-C.png",
+    },
+    {
+      "path": "files/ed1a-C.png",
       "label": "Common stone",
       "size": "3.6 MB"
     }
